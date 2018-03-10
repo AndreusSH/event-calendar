@@ -1,20 +1,45 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+
 import './App.css';
+import moment from 'moment'
+
+import BigCalendar from 'react-big-calendar'
+// a localizer for BigCalendar
+
+import { getEvents } from './gcal'
+ 
+import BigCalendarCSS from 'react-big-calendar/lib/css/react-big-calendar.css';
+// a localizer for BigCalendar
+
+
+
+ 
+BigCalendar.momentLocalizer(moment)
 
 class App extends Component {
+
+
+ constructor () {
+    super()
+    this.state = {
+      events: []
+    }
+  }
+  componentDidMount () {
+    getEvents((events) => {
+      this.setState({events})
+    })
+}
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+       <BigCalendar
+        style={{height: '420px'}}
+        events={this.state.events}
+/>
       </div>
-    );
+    )
   }
 }
 
